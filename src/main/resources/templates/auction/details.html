@@ -24,7 +24,7 @@
         </tr>
     </table>
     <div class="btn-group" role="group">
-        <a th:href="${'/auction/delete/' + auction.id }" type="button" class="btn btn-success">Delete</a>
+        <a class="btn btn-success" th:href="${'/auction/' + auction.id + '/delete' }" type="button">Delete</a>
         <a th:href="${'/auction/' + auction.id + '/edit'}" type="button" class="btn btn-primary">Edit</a>
     </div>
     <div class="back-to-list-button">

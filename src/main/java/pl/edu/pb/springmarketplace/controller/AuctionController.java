@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 import pl.edu.pb.springmarketplace.model.Auction;
 import pl.edu.pb.springmarketplace.model.Category;
 import pl.edu.pb.springmarketplace.model.repository.AuctionRepository;
@@ -39,9 +38,9 @@ public class AuctionController {
     }
 
     @PostMapping
-    public ModelAndView postAuction(Auction auction) {
+    public String postAuction(Auction auction) {
         Auction saved = auctionRepository.save(auction);
-        return new ModelAndView("redirect:/auction/" + saved.getId());
+        return "redirect:/auction/" + saved.getId();
     }
 
     @GetMapping(value = "/{id}/edit")
@@ -58,4 +57,11 @@ public class AuctionController {
         auctionOpt.ifPresent(auction -> model.addAttribute("auction", auction));
         return "/auction/details";
     }
+
+    @RequestMapping("/{id}/delete")
+    public String deleteAirport(@PathVariable Long id) {
+        auctionRepository.deleteById(id);
+        return "redirect:/auction";
+    }
+
 }
