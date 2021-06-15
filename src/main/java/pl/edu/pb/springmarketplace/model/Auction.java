@@ -1,12 +1,14 @@
 package pl.edu.pb.springmarketplace.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Data
+@Getter
+@Setter
 public class Auction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,6 +18,6 @@ public class Auction {
     private String description;
     private BigDecimal price;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 }
