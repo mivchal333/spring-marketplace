@@ -4,7 +4,7 @@
       layout:decorate="auction/_layout" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
-    <title>Edit Airport</title>
+    <title>Edit Auction</title>
     <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
           rel="stylesheet" media="screen"/>
     <script src="http://cdn.jsdelivr.net/webjars/jquery/3.2.1/jquery.min.js"></script>
@@ -12,7 +12,7 @@
 <body>
 <div layout:fragment="content">
 <div class="container">
-    <h2>Airport Details</h2>
+    <h2>Auction Details</h2>
     <div>
         <!--/*@thymesVar id="auction" type="pl.edu.pb.springmarketplace.model.Auction"*/-->
         <form class="form-horizontal" th:object="${auction}" action="/auction" method="post">
