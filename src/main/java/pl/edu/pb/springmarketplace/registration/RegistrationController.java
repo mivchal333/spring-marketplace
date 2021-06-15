@@ -42,7 +42,7 @@ public class RegistrationController {
         appUser.setAppUserRole(AppUserRole.USER);
         appUserRepository.save(appUser);
         //TODO: Add success or fail message
-        return "/auction";
+        return "/auction/list";
     }
 
 }
