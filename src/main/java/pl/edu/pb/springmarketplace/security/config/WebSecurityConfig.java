@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/auction/new")
                     .hasAnyRole("USER", "MODERATOR","ADMIN")
                     .antMatchers("/auction/*/delete")
-                    .hasAnyRole("MODERATOR","ADMIN")
+                    .hasAnyAuthority("MODERATOR","ADMIN")
                     .antMatchers("/auction")
                     .permitAll()
                 .anyRequest()
@@ -46,20 +46,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        //auth.authenticationProvider(daoAuthenticationProvider());
+        auth.authenticationProvider(daoAuthenticationProvider());
 
-        auth.inMemoryAuthentication()
-                .withUser("User")
-                .password(bCryptPasswordEncoder.encode("123123"))
-                .roles("USER")
-                .and()
-                .withUser("Moderator")
-                .password(bCryptPasswordEncoder.encode("123123"))
-                .roles("MODERATOR")
-                .and()
-                .withUser("Admin")
-                .password(bCryptPasswordEncoder.encode("123123"))
-                .roles("ADMIN");
+//        auth.inMemoryAuthentication()
+//                .withUser("User")
+//                .password(bCryptPasswordEncoder.encode("123123"))
+//                .roles("USER")
+//                .and()
+//                .withUser("Moderator")
+//                .password(bCryptPasswordEncoder.encode("123123"))
+//                .roles("MODERATOR")
+//                .and()
+//                .withUser("Admin")
+//                .password(bCryptPasswordEncoder.encode("123123"))
+//                .roles("ADMIN");
     }
 
 
@@ -71,4 +71,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         provider.setUserDetailsService(appUserService);
         return provider;
     }
+
 }
