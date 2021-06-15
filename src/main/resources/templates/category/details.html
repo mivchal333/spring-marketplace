@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"
+      layout:decorate="/_layout"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+
+
+<!--/*@thymesVar id="category" type="pl.edu.pb.springmarketplace.model.Category"*/-->
+
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h2>Category details:</h2>
+        <table class="table table-striped">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td th:text="${category.id}"></td>
+                <td th:text="${category.name}"></td>
+                <td th:text="${category.description}"></td>
+            </tr>
+        </table>
+        <div class="btn-group" role="group">
+            <a class="btn btn-danger" th:href="${'/category/' + category.id + '/delete' }" type="button">Delete</a>
+            <a class="btn btn-primary" th:href="${'/category/' + category.id + '/edit'}" type="button">Edit</a>
+        </div>
+        <div class="back-to-list-button" style="margin-top: 2em">
+            <a class="btn btn-default" role="button" th:href="${'/category'}">Back to list</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

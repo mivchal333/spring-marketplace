@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"
+      layout:decorate="/_layout"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>categories list</title>
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
+          media="screen" rel="stylesheet"/>
+    <script src="http://cdn.jsdelivr.net/webjars/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h1>Categories list:</h1>
+        <div th:if="${not #lists.isEmpty(categories)}">
+            <table class="table table-striped">
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th></th>
+                </tr>
+                <tr th:each="category : ${categories}">
+                    <td th:text="${category.id}"></td>
+                    <td th:text="${category.name}"></td>
+                    <td th:text="${category.description}"></td>
+                    <td>
+                        <a class="btn btn-info" th:href="${'/category/' + category.id }" type="button">Show</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <a class="btn btn-primary" th:href="${'/category/new/'}" type="button">New category</a>
+    </div>
+    <div th:if="${#lists.isEmpty(categories)}">
+        <h3>Empty list</h3></div>
+</div>
+</body>
+</html>

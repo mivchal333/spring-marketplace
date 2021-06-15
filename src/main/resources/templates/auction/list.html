@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="auction/_layout" xmlns:th="http://www.w3.org/1999/xhtml">
+      layout:decorate="/_layout">
 
 <head>
     <meta charset="UTF-8">
@@ -13,7 +13,7 @@
 <body>
 <div layout:fragment="content">
 <div class="container">
-    <h1>auctions list:</h1>
+    <h1>Auctions list:</h1>
     <div th:if="${not #lists.isEmpty(auctions)}">
         <table class="table table-striped">
             <tr>
@@ -34,7 +34,7 @@
             </tr>
         </table>
     </div>
-    <a type="button" class="btn btn-primary" th:href="${'/auction/new/'}">New auction</a>
+    <a class="btn btn-primary" th:href="${'/auction/new/'}" type="button">Add</a>
 </div>
 <div th:if="${#lists.isEmpty(auctions)}">
     <h3>Empty list</h3></div>

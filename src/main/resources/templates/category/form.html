@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en"
+      layout:decorate="/_layout"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<head>
+    <title>Edit Category</title>
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
+          media="screen" rel="stylesheet"/>
+    <script src="http://cdn.jsdelivr.net/webjars/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h2>Category Details</h2>
+        <div>
+            <!--/*@thymesVar id="category" type="pl.edu.pb.springmarketplace.model.Category"*/-->
+            <form action="/category" class="form-horizontal" method="post" th:object="${category}">
+                <input th:field="*{id}" type="hidden"/>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Title:</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" th:field="*{name}" type="text"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Description:</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" th:field="*{description}" type="text"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+        <br>
+        <div>
+            <a class="btn btn-default" th:href="${'/category'}">Back to list</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

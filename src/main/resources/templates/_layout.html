@@ -30,6 +30,9 @@
                     <a href="#" th:href="@{/auction}">Home</a>
                 </li>
                 <li th:classappend="${module == 'tasks' ? 'active' : ''}">
+                    <a href="#" th:href="@{/category}">Categories</a>
+                </li>
+                <li th:classappend="${module == 'tasks' ? 'active' : ''}">
                     <a href="#" th:href="@{/auction}">Moderation</a>
                 </li>
                 <li th:classappend="${module == 'tasks' ? 'active' : ''}">
@@ -42,7 +45,7 @@
                         <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;Sign in
                     </a>
                 </li>
-                <li >
+                <li>
                     <a href="/logout" th:href="@{#}" onclick="$('#form').submit();">
                         <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout
                     </a>

@@ -46,6 +46,8 @@ public class AuctionController {
     @GetMapping(value = "/{id}/edit")
     public String editAuction(@PathVariable Long id, Model model) {
         Optional<Auction> foundOpt = auctionRepository.findById(id);
+        Iterable<Category> categories = categoryRepository.findAll();
+        model.addAttribute("categories", categories);
 
         foundOpt.ifPresent(auction -> model.addAttribute("auction", auction));
         return "/auction/form";
