@@ -1,54 +1,57 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="auction/_layout" xmlns:th="http://www.w3.org/1999/xhtml">
+      layout:decorate="/_layout">
 
 <head>
     <title>Edit Auction</title>
-    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
-          rel="stylesheet" media="screen"/>
-    <script src="http://cdn.jsdelivr.net/webjars/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
 <div layout:fragment="content">
-<div class="container">
-    <h2>Auction Details</h2>
-    <div>
-        <!--/*@thymesVar id="auction" type="pl.edu.pb.springmarketplace.model.Auction"*/-->
-        <form class="form-horizontal" th:object="${auction}" action="/auction" method="post">
-            <input type="hidden" th:field="*{id}"/>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Title:</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" th:field="*{title}"/>
+    <div class="container">
+        <h2>Auction Details</h2>
+        <div>
+            <!--/*@thymesVar id="auction" type="pl.edu.pb.springmarketplace.model.Auction"*/-->
+            <!--/*@thymesVar id="category" type="pl.edu.pb.springmarketplace.model.Category"*/-->
+            <form action="/auction" class="form-horizontal" method="post" th:object="${auction}">
+                <input th:field="*{id}" type="hidden"/>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Title:</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" th:field="*{title}" type="text"/>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Description:</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" th:field="*{description}"/>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Description:</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" th:field="*{description}" type="text"/>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Price:</label>
-                <div class="col-sm-10">
-                    <input type="number" class="form-control" th:field="*{price}"/>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Price:</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" th:field="*{price}" type="number"/>
+                    </div>
                 </div>
-            </div>
-            <select class="form-select" aria-label="Default select example" th:each="category : ${categories}">
-                <option th:text="${category.name}">
-                </option>
-            </select>
-            <div class="row">
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-        </form>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Description:</label>
+                    <div class="col-sm-10">
+                        <select aria-label="Default select example" class="form-select form-select-lg mb-3">
+                            <option th:each="category : ${categories}" th:text="${category.name}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+        <br>
+        <div>
+            <a class="btn btn-default" th:href="${'/auction'}">Back to list</a>
+        </div>
     </div>
-    <br>
-    <div>
-        <a th:href="${'/auction'}" class="btn btn-default">Back to list</a>
-    </div>
-</div>
 </div>
 </body>
 </html>

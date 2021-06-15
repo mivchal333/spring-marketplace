@@ -13,6 +13,8 @@ import javax.persistence.Id;
 @EqualsAndHashCode
 public class Category {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private String description;
 }
