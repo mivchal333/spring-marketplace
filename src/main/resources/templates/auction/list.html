@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="auction/_layout" xmlns:th="http://www.w3.org/1999/xhtml">
+
 <head>
     <meta charset="UTF-8">
     <title>auctions list</title>
@@ -8,6 +11,7 @@
     <script src="http://cdn.jsdelivr.net/webjars/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
+<div layout:fragment="content">
 <div class="container">
     <h1>auctions list:</h1>
     <div th:if="${not #lists.isEmpty(auctions)}">
@@ -34,5 +38,6 @@
 </div>
 <div th:if="${#lists.isEmpty(auctions)}">
     <h3>Empty list</h3></div>
+</div>
 </body>
 </html>

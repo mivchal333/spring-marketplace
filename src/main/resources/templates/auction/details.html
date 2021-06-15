@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="auction/_layout" xmlns:th="http://www.w3.org/1999/xhtml">
 
-<link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
-      rel="stylesheet" media="screen"/>
-<script src="http://cdn.jsdelivr.net/webjars/jquery/3.2.1/jquery.min.js"></script>
 
 <!--/*@thymesVar id="auction" type="pl.edu.pb.springmarketplace.model.Auction"*/-->
+
 <body>
+<div layout:fragment="content">
 <div class="container">
     <h2>Auction details:</h2>
     <table class="table table-striped">
@@ -30,6 +31,7 @@
     <div class="back-to-list-button">
         <a th:href="${'/auction'}" role="button" class="btn btn-default">Back to list</a>
     </div>
+</div>
 </div>
 </body>
 </html>

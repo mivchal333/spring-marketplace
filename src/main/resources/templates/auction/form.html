@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="auction/_layout" xmlns:th="http://www.w3.org/1999/xhtml">
+
 <head>
     <title>Edit Airport</title>
     <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -7,6 +10,7 @@
     <script src="http://cdn.jsdelivr.net/webjars/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
+<div layout:fragment="content">
 <div class="container">
     <h2>Airport Details</h2>
     <div>
@@ -44,6 +48,7 @@
     <div>
         <a th:href="${'/auction'}" class="btn btn-default">Back to list</a>
     </div>
+</div>
 </div>
 </body>
 </html>
