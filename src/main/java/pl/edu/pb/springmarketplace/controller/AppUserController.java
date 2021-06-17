@@ -44,8 +44,6 @@ public class AppUserController {
     @GetMapping(value = "/{id}/edit")
     public String editUser(@PathVariable Long id, Model model) {
         Optional<AppUser> foundOpt = appUserService.findById(id);
-
-        foundOpt.ifPresent(appuser -> model.addAttribute("appuser", appuser));
         foundOpt.ifPresent(appuser -> model.addAttribute("appuser", appuser));
         return "/appuser/form";
     }

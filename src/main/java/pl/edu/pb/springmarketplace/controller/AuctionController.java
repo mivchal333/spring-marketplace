@@ -13,6 +13,7 @@ import pl.edu.pb.springmarketplace.model.Category;
 import pl.edu.pb.springmarketplace.service.AuctionService;
 import pl.edu.pb.springmarketplace.service.AuthFacade;
 import pl.edu.pb.springmarketplace.service.CategoryService;
+import pl.edu.pb.springmarketplace.service.EmailService;
 
 import java.util.Optional;
 
@@ -24,6 +25,7 @@ public class AuctionController {
 
     private final AuctionService auctionService;
     private final CategoryService categoryService;
+    private final EmailService emailService;
     private final AuthFacade authFacade;
 
     @GetMapping
@@ -58,13 +60,15 @@ public class AuctionController {
 
     @GetMapping("/{id}/publish")
     public String publishAuction(@PathVariable Long id) {
-        auctionService.changePublishState(id, true);
+        Auction saved = auctionService.changePublishState(id, true);
+        emailService.sendAuctionPublishedMail(saved.getCreator(), saved);
         return "redirect:/auction/moderate";
     }
 
     @GetMapping("/{id}/unpublish")
     public String unpublishAuction(@PathVariable Long id) {
-        auctionService.changePublishState(id, false);
+        Auction saved = auctionService.changePublishState(id, false);
+        emailService.sendAuctionUnpublishedMail(saved.getCreator(), saved);
         return "redirect:/auction/moderate";
     }
 

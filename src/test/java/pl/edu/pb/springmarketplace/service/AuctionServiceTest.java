@@ -17,11 +17,12 @@ public class AuctionServiceTest {
     AuctionService sut;
     AuctionRepository auctionRepository = Mockito.mock(AuctionRepository.class);
     AuthFacade authFacade = Mockito.mock(AuthFacade.class);
-
+    EmailServiceImpl emailServiceImpl;
 
     @BeforeEach
     public void setUp() {
-        sut = new AuctionServiceImpl(auctionRepository, authFacade);
+        emailServiceImpl = new EmailServiceImpl();
+        sut = new AuctionServiceImpl(auctionRepository, authFacade, emailServiceImpl);
     }
 
     @Test

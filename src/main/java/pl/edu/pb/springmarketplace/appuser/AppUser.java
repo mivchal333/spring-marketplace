@@ -42,8 +42,8 @@ public class AppUser implements UserDetails {
         this.password = password;
         this.appUserRole = appUserRole;
 
-
     }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

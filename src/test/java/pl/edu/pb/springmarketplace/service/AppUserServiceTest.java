@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.edu.pb.springmarketplace.appuser.*;
 import pl.edu.pb.springmarketplace.model.Auction;
 import pl.edu.pb.springmarketplace.model.repository.AuctionRepository;
+import pl.edu.pb.springmarketplace.registration.EmailValidator;
 import pl.edu.pb.springmarketplace.security.PasswordEncoder;
 
 import java.math.BigDecimal;
@@ -21,11 +22,13 @@ public class AppUserServiceTest {
     AppUserService appUserService;
     AppUserRepository appUserRepository = Mockito.mock(AppUserRepository.class);
     BCryptPasswordEncoder bCryptPasswordEncoder;
+    EmailValidator emailValidator;
 
     @BeforeEach
     public void setUp() {
+        emailValidator = new EmailValidator();
         bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        appUserService = new AppUserServiceImpl(appUserRepository, bCryptPasswordEncoder );
+        appUserService = new AppUserServiceImpl(appUserRepository, bCryptPasswordEncoder, emailValidator);
 
     }
 

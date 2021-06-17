@@ -20,12 +20,14 @@
                 <th>Id</th>
                 <th>Username</th>
                 <th>Email</th>
+                <th>Role</th>
                 <th></th>
             </tr>
             <tr th:each="appuser : ${appusers}">
                 <td th:text="${appuser.id}"></td>
                 <td th:text="${appuser.username}"></td>
                 <td th:text="${appuser.email}"></td>
+                <td th:text="${appuser.appUserRole}"></td>
                 <td>
                     <a th:href="${'/appuser/' + appuser.id }" type="button" class="btn btn-info">Show</a>
                 </td>

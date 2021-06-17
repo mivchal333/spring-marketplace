@@ -10,7 +10,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.edu.pb.springmarketplace.appuser.exceptions.InvalidEmailAddressException;
 import pl.edu.pb.springmarketplace.model.Auction;
+import pl.edu.pb.springmarketplace.registration.EmailValidator;
 
 import javax.swing.text.html.Option;
 import java.util.Optional;
@@ -23,7 +25,7 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
     private final static String USER_NOT_FOUND = "User with email %s not found";
     private final AppUserRepository appUserRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
+    private final EmailValidator emailValidator;
 
     @Value("${spring.security.user.name}")
     private String adminUserName;
@@ -55,13 +57,9 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
 
     }
 
-
-
-
     //Create via admin panel
     @Override
     public AppUser buildAndSaveUser(AppUser appUser) {
-
 
         Optional<AppUser> existingUserWithSameMail = appUserRepository.findByEmail(appUser.getEmail());
 
@@ -83,7 +81,10 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
         }
 
 
-
+        if (!emailValidator.test(appUser.getEmail())){
+            log.error(String.format("Error while creating user Email address %s is invalid", appUser.getEmail()));
+            throw new InvalidEmailAddressException(String.format("Email address %s is invalid", appUser.getEmail()));
+        }
 
         appUser.setAppUserRole(appUser.getAppUserRole());
         log.info(String.format("Registered new user (via admin panel): %s %s", appUser.getUsername(),
@@ -103,8 +104,14 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
         if (userExists){
             throw new IllegalStateException("Email already used.");
         }
+        if (!emailValidator.test(appUser.getEmail())){
+            log.error(String.format("Error while creating user Email address %s is invalid", appUser.getEmail()));
+            throw new InvalidEmailAddressException(String.format("Email address %s is invalid", appUser.getEmail()));
+        }
         String encodedPass = bCryptPasswordEncoder.encode(appUser.getPassword());
         appUser.setPassword(encodedPass);
+
+
 
         appUser.setAppUserRole(AppUserRole.USER);
         log.info(String.format("Registered new user (via register form): %s %s", appUser.getUsername(),
