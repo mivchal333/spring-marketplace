@@ -5,14 +5,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.security.access.AccessDeniedException;
 import pl.edu.pb.springmarketplace.appuser.AppUser;
 import pl.edu.pb.springmarketplace.model.Auction;
 import pl.edu.pb.springmarketplace.model.repository.AuctionRepository;
 
 import java.math.BigDecimal;
 import java.util.Collections;
-import java.util.Optional;
 
 public class AuctionServiceTest {
 
@@ -42,22 +40,6 @@ public class AuctionServiceTest {
         Iterable<Auction> all = sut.findPublished();
 
         Assertions.assertTrue(all.iterator().hasNext());
-    }
-
-    @Test
-    public void shouldThrowAccessDeniedException() {
-        Long id = 3L;
-        String user1 = "user1";
-        Auction auction = prepareAuction();
-
-        Mockito.when(auctionRepository.findById(id))
-                .thenReturn(Optional.of(auction));
-        Mockito.when(authFacade.getCurrentUserName())
-                .thenReturn(user1);
-
-        Assertions.assertThrows(AccessDeniedException.class, () -> {
-            sut.changePublishState(id, false);
-        });
     }
 
     private Auction prepareAuction() {

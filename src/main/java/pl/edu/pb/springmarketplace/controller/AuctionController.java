@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pl.edu.pb.springmarketplace.appuser.AppUser;
 import pl.edu.pb.springmarketplace.model.Auction;
 import pl.edu.pb.springmarketplace.model.Category;
 import pl.edu.pb.springmarketplace.service.AuctionService;
+import pl.edu.pb.springmarketplace.service.AuthFacade;
 import pl.edu.pb.springmarketplace.service.CategoryService;
 
 import java.util.Optional;
@@ -22,6 +24,7 @@ public class AuctionController {
 
     private final AuctionService auctionService;
     private final CategoryService categoryService;
+    private final AuthFacade authFacade;
 
     @GetMapping
     public String findAll(Model model) {
@@ -30,11 +33,11 @@ public class AuctionController {
         return "/auction/list";
     }
 
-    @GetMapping("/my")
-    public String findAllMyAuctions(Model model) {
-        Iterable<Auction> auctions = auctionService.findAllMyAuctions();
+    @GetMapping("/moderate")
+    public String moderateAuctions(Model model) {
+        Iterable<Auction> auctions = auctionService.findAll();
         model.addAttribute("auctions", auctions);
-        return "/auction/my";
+        return "/auction/moderate";
     }
 
     @GetMapping("/new")
@@ -47,6 +50,8 @@ public class AuctionController {
 
     @PostMapping
     public String postAuction(Auction auction) {
+        AppUser user = authFacade.getCurrentUser();
+        auction.setCreator(user);
         Auction saved = auctionService.save(auction);
         return "redirect:/auction/" + saved.getId();
     }
@@ -54,13 +59,13 @@ public class AuctionController {
     @GetMapping("/{id}/publish")
     public String publishAuction(@PathVariable Long id) {
         auctionService.changePublishState(id, true);
-        return "redirect:/auction/my";
+        return "redirect:/auction/moderate";
     }
 
     @GetMapping("/{id}/unpublish")
     public String unpublishAuction(@PathVariable Long id) {
         auctionService.changePublishState(id, false);
-        return "redirect:/auction/my";
+        return "redirect:/auction/moderate";
     }
 
     @GetMapping(value = "/{id}/edit")

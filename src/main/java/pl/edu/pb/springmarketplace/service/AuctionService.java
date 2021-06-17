@@ -8,7 +8,7 @@ public interface AuctionService {
 
     Iterable<Auction> findPublished();
 
-    Iterable<Auction> findAllMyAuctions();
+    Iterable<Auction> findAll();
 
     Auction save(Auction auction);
 
