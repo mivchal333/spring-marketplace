@@ -9,14 +9,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import pl.edu.pb.springmarketplace.appuser.AppUserService;
+import pl.edu.pb.springmarketplace.appuser.AppUserServiceImpl;
 
 @Configuration
 @AllArgsConstructor
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final AppUserService appUserService;
+    private final AppUserServiceImpl appUserServiceImpl;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
@@ -69,7 +69,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
 
         provider.setPasswordEncoder(bCryptPasswordEncoder);
-        provider.setUserDetailsService(appUserService);
+        provider.setUserDetailsService(appUserServiceImpl);
         return provider;
     }
 

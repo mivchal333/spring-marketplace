@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.edu.pb.springmarketplace.appuser.AppUser;
 import pl.edu.pb.springmarketplace.appuser.AppUserRepository;
 import pl.edu.pb.springmarketplace.appuser.AppUserRole;
+import pl.edu.pb.springmarketplace.appuser.AppUserService;
 import pl.edu.pb.springmarketplace.model.Auction;
 
 @Controller
@@ -16,9 +17,7 @@ import pl.edu.pb.springmarketplace.model.Auction;
 @AllArgsConstructor
 public class RegistrationController {
 
-    private AppUserRepository appUserRepository;
-    private final static String USER_NOT_FOUND = "User with email %s not found";
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private AppUserService appUserService;
 
     @GetMapping
     public String newForm(Model model){
@@ -30,18 +29,7 @@ public class RegistrationController {
     @PostMapping
     public String register(AppUser appUser){
 
-
-        boolean userExists = appUserRepository.findByEmail(appUser.getEmail()).isPresent();
-
-        if (userExists){
-            throw new IllegalStateException("Email already used.");
-        }
-        String encodedPass = bCryptPasswordEncoder.encode(appUser.getPassword());
-        appUser.setPassword(encodedPass);
-
-        appUser.setAppUserRole(AppUserRole.USER);
-        appUserRepository.save(appUser);
-        //TODO: Add success or fail message
+        appUserService.registerNewUser(appUser);
         return "/auction/list";
     }
 

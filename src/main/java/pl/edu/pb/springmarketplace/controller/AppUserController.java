@@ -1,9 +1,6 @@
 package pl.edu.pb.springmarketplace.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,11 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import pl.edu.pb.springmarketplace.appuser.AppUser;
 import pl.edu.pb.springmarketplace.appuser.AppUserRepository;
 import pl.edu.pb.springmarketplace.appuser.AppUserService;
-import pl.edu.pb.springmarketplace.model.Auction;
-import pl.edu.pb.springmarketplace.model.Category;
-import pl.edu.pb.springmarketplace.model.repository.AuctionRepository;
+import pl.edu.pb.springmarketplace.appuser.AppUserServiceImpl;
 
-import java.util.Collection;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -25,13 +19,11 @@ import java.util.Optional;
 @RequestMapping("/appuser")
 public class AppUserController {
 
-    private final AppUserRepository appUserRepository;
-
     private final AppUserService appUserService;
 
     @GetMapping
     public String findAll(Model model) {
-        Iterable<AppUser> appUsers = appUserRepository.findAll();
+        Iterable<AppUser> appUsers = appUserService.findAll();
         model.addAttribute("appusers", appUsers);
         return "/appuser/list";
     }
@@ -44,14 +36,14 @@ public class AppUserController {
 
     @PostMapping
     public String postUser(AppUser appUser) {
-        AppUser saved = appUserRepository.save(appUser);
+        AppUser saved = appUserService.buildAndSaveUser(appUser);
 
         return "redirect:/appuser/" + saved.getId();
     }
 
     @GetMapping(value = "/{id}/edit")
     public String editUser(@PathVariable Long id, Model model) {
-        Optional<AppUser> foundOpt = appUserRepository.findById(id);
+        Optional<AppUser> foundOpt = appUserService.findById(id);
 
         foundOpt.ifPresent(appuser -> model.addAttribute("appuser", appuser));
         return "/appuser/form";
@@ -59,14 +51,14 @@ public class AppUserController {
 
     @GetMapping("/{id}")
     public String findUser(@PathVariable Long id, Model model) {
-        Optional<AppUser> auctionOpt = appUserRepository.findById(id);
+        Optional<AppUser> auctionOpt = appUserService.findById(id);
         auctionOpt.ifPresent(appuser -> model.addAttribute("appuser", appuser));
         return "/appuser/details";
     }
 
     @RequestMapping("/{id}/delete")
     public String deleteUser(@PathVariable Long id) {
-        appUserRepository.deleteById(id);
+        appUserService.deleteById(id);
         return "redirect:/appuser";
     }
 }
