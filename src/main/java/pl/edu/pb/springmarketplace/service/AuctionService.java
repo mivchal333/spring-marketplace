@@ -16,5 +16,5 @@ public interface AuctionService {
 
     void deleteById(Long id);
 
-    Auction publishAuction(Long id);
+    Auction changePublishState(Long id, Boolean isPublish);
 }

@@ -2,6 +2,7 @@ package pl.edu.pb.springmarketplace.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import pl.edu.pb.springmarketplace.appuser.AppUser;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -18,9 +19,8 @@ public class Auction {
     private String description;
     private BigDecimal price;
     private Boolean published = false;
-    @Column(nullable = false)
-    private String creatorUsername;
-
+    @ManyToOne(optional = false)
+    private AppUser creator;
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 }

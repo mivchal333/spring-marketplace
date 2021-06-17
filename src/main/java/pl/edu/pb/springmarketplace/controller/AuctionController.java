@@ -53,7 +53,13 @@ public class AuctionController {
 
     @GetMapping("/{id}/publish")
     public String publishAuction(@PathVariable Long id) {
-        auctionService.publishAuction(id);
+        auctionService.changePublishState(id, true);
+        return "redirect:/auction/my";
+    }
+
+    @GetMapping("/{id}/unpublish")
+    public String unpublishAuction(@PathVariable Long id) {
+        auctionService.changePublishState(id, false);
         return "redirect:/auction/my";
     }
 

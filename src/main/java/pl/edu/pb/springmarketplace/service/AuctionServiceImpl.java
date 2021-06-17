@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import pl.edu.pb.springmarketplace.appuser.AppUser;
 import pl.edu.pb.springmarketplace.model.Auction;
 import pl.edu.pb.springmarketplace.model.repository.AuctionRepository;
 import pl.edu.pb.springmarketplace.service.exception.AuctionNotFoundException;
@@ -33,8 +34,8 @@ public class AuctionServiceImpl implements AuctionService {
 
     @Override
     public Auction save(Auction auction) {
-        String name = authFacade.getCurrentUserName();
-        auction.setCreatorUsername(name);
+        AppUser user = authFacade.getCurrentUser();
+        auction.setCreator(user);
         return auctionRepository.save(auction);
     }
 
@@ -53,12 +54,12 @@ public class AuctionServiceImpl implements AuctionService {
     }
 
     @Override
-    public Auction publishAuction(Long id) {
+    public Auction changePublishState(Long id, Boolean isPublish) {
         Auction auction = auctionRepository.findById(id)
                 .orElseThrow(() -> new AuctionNotFoundException("Not found auction id=" + id));
         String currentUserUsername = authFacade.getCurrentUserName();
 
-        if (!currentUserUsername.equals(auction.getCreatorUsername())) {
+        if (!currentUserUsername.equals(auction.getCreator().getUsername())) {
             log.error("Publish auction failed.");
             throw new AccessDeniedException("Access denied");
         }

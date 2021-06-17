@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.security.access.AccessDeniedException;
+import pl.edu.pb.springmarketplace.appuser.AppUser;
 import pl.edu.pb.springmarketplace.model.Auction;
 import pl.edu.pb.springmarketplace.model.repository.AuctionRepository;
 
@@ -55,7 +56,7 @@ public class AuctionServiceTest {
                 .thenReturn(user1);
 
         Assertions.assertThrows(AccessDeniedException.class, () -> {
-            sut.publishAuction(id);
+            sut.changePublishState(id, false);
         });
     }
 
@@ -64,7 +65,8 @@ public class AuctionServiceTest {
         auction.setTitle("title");
         auction.setDescription("desc");
         auction.setPrice(BigDecimal.ONE);
-        auction.setCreatorUsername("user");
+        AppUser user = new AppUser();
+        auction.setCreator(user);
         auction.setPublished(false);
         return auction;
     }

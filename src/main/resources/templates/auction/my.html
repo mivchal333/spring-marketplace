@@ -31,7 +31,9 @@
                     <td>
                         <a class="btn btn-info" th:href="${'/auction/' + auction.id }" type="button">Show</a>
                         <a class="btn btn-success" th:href="${'/auction/' + auction.id + '/publish'}"
-                           th:if="${auction.published == false}" type="button">Publish</a>
+                           th:if="${auction.published == false}" type="button">
+                            <a class="btn btn-danger" th:href="${'/auction/' + auction.id + '/publish'}"
+                               th:if="${auction.published == true}" type="button">Unpublish</a>
                     </td>
                 </tr>
             </table>
