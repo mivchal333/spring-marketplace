@@ -25,9 +25,16 @@ public class AuctionController {
 
     @GetMapping
     public String findAll(Model model) {
-        Iterable<Auction> auctions = auctionService.findAll();
+        Iterable<Auction> auctions = auctionService.findPublished();
         model.addAttribute("auctions", auctions);
         return "/auction/list";
+    }
+
+    @GetMapping("/my")
+    public String findAllMyAuctions(Model model) {
+        Iterable<Auction> auctions = auctionService.findAllMyAuctions();
+        model.addAttribute("auctions", auctions);
+        return "/auction/my";
     }
 
     @GetMapping("/new")
@@ -42,6 +49,12 @@ public class AuctionController {
     public String postAuction(Auction auction) {
         Auction saved = auctionService.save(auction);
         return "redirect:/auction/" + saved.getId();
+    }
+
+    @GetMapping("/{id}/publish")
+    public String publishAuction(@PathVariable Long id) {
+        auctionService.publishAuction(id);
+        return "redirect:/auction/my";
     }
 
     @GetMapping(value = "/{id}/edit")

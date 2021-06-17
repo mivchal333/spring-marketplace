@@ -17,6 +17,9 @@ public class Auction {
     private String title;
     private String description;
     private BigDecimal price;
+    private Boolean published = false;
+    @Column(nullable = false)
+    private String creatorUsername;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
