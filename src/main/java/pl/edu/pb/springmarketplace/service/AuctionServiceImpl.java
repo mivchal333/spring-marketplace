@@ -2,6 +2,7 @@ package pl.edu.pb.springmarketplace.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import pl.edu.pb.springmarketplace.model.Auction;
@@ -16,6 +17,10 @@ import java.util.Optional;
 public class AuctionServiceImpl implements AuctionService {
     private final AuctionRepository auctionRepository;
     private final AuthFacade authFacade;
+
+
+    private final EmailServiceImpl emailServiceImpl;
+
 
     @Override
     public Iterable<Auction> findPublished() {
@@ -55,6 +60,9 @@ public class AuctionServiceImpl implements AuctionService {
 
         auction.setPublished(isPublish);
         log.info("Auction with id={} published", id);
-        return save(auction);
+
+        Auction saved = save(auction);
+        emailServiceImpl.sendNotification(saved.getCreator(), saved);
+        return saved;
     }
 }

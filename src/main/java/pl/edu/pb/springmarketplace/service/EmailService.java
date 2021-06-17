@@ -1,0 +1,13 @@
+package pl.edu.pb.springmarketplace.service;
+
+import pl.edu.pb.springmarketplace.appuser.AppUser;
+import pl.edu.pb.springmarketplace.model.Auction;
+
+public interface EmailService {
+
+    void sendAuctionPublishedMail(AppUser appUser, Auction auction);
+
+    void sendAuctionUnpublishedMail(AppUser appUser, Auction auction);
+
+
+}
