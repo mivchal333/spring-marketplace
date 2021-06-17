@@ -43,9 +43,16 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
                     AppUserRole.ADMIN));
             log.info("Created admin user.");
         }
-        //TODO: split and test
-        return appUserRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND,email)));
+
+        Optional<AppUser> existingUser = appUserRepository.findByEmail(email);
+        if (existingUser.isPresent()){
+            log.info("Loaded user with email {}", email);
+            return existingUser.get();
+        }else{
+            log.error(USER_NOT_FOUND, email);
+            throw new UsernameNotFoundException(String.format(USER_NOT_FOUND,email));
+        }
+
     }
 
 
@@ -60,7 +67,7 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
 
         if (existingUserWithSameMail.isPresent()){
             if (existingUserWithSameMail.get().getId() != appUser.getId()){
-                log.error("Email %s already taken by different user.", appUser.getEmail());
+                log.error("Email {} already taken by different user.", appUser.getEmail());
                 throw new IllegalStateException("Email already used.");
             }
             //if new password = encode again!
@@ -117,6 +124,7 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
 
     @Override
     public Optional<AppUser> findById(Long id) {
+        log.info("Found user by id={}", id);
         return appUserRepository.findById(id);
     }
 
