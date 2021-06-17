@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.edu.pb.springmarketplace.model.Auction;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
@@ -55,16 +56,29 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
     public AppUser buildAndSaveUser(AppUser appUser) {
 
 
-        boolean userExists = appUserRepository.findByEmail(appUser.getEmail()).isPresent();
+        Optional<AppUser> existingUserWithSameMail = appUserRepository.findByEmail(appUser.getEmail());
 
-        if (userExists){
-            log.error("Email %s already taken", appUser.getEmail());
-            throw new IllegalStateException("Email already used.");
+        if (existingUserWithSameMail.isPresent()){
+            if (existingUserWithSameMail.get().getId() != appUser.getId()){
+                log.error("Email %s already taken by different user.", appUser.getEmail());
+                throw new IllegalStateException("Email already used.");
+            }
+            //if new password = encode again!
+            if (!existingUserWithSameMail.get().getPassword().equals(appUser.getPassword())) {
+                String encodedPass = bCryptPasswordEncoder.encode(appUser.getPassword());
+                appUser.setPassword(encodedPass);
+            }
+
         }
-        String encodedPass = bCryptPasswordEncoder.encode(appUser.getPassword());
-        appUser.setPassword(encodedPass);
+        else{
+            String encodedPass = bCryptPasswordEncoder.encode(appUser.getPassword());
+            appUser.setPassword(encodedPass);
+        }
 
-        appUser.setAppUserRole(AppUserRole.USER);
+
+
+
+        appUser.setAppUserRole(appUser.getAppUserRole());
         log.info(String.format("Registered new user (via admin panel): %s %s", appUser.getUsername(),
                 appUser.getEmail()));
         appUser.getAuthorities();

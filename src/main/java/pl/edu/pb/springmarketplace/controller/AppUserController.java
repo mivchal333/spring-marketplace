@@ -46,6 +46,7 @@ public class AppUserController {
         Optional<AppUser> foundOpt = appUserService.findById(id);
 
         foundOpt.ifPresent(appuser -> model.addAttribute("appuser", appuser));
+        foundOpt.ifPresent(appuser -> model.addAttribute("appuser", appuser));
         return "/appuser/form";
     }
 
