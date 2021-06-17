@@ -9,14 +9,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import pl.edu.pb.springmarketplace.appuser.AppUserService;
+import pl.edu.pb.springmarketplace.appuser.AppUserServiceImpl;
 
 @Configuration
 @AllArgsConstructor
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final AppUserService appUserService;
+    private final AppUserServiceImpl appUserServiceImpl;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
@@ -28,11 +28,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/auction/new")
                 .hasAnyAuthority("USER", "MODERATOR", "ADMIN")
-                .antMatchers("/auction/*/delete", "/auction/*/publish", "/auction/*/unpublish")
+                .antMatchers("/auction/*/delete", "/auction/*/publish", "/auction/*/unpublish", "/auction/moderate")
                 .hasAnyAuthority("MODERATOR", "ADMIN")
                 .antMatchers("/auction")
                 .permitAll()
-                .antMatchers("/administration")
+                .antMatchers("/appuser", "/appuser/*")
                 .hasAuthority("ADMIN")
                 .anyRequest()
                 .authenticated().and()
@@ -69,7 +69,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
 
         provider.setPasswordEncoder(bCryptPasswordEncoder);
-        provider.setUserDetailsService(appUserService);
+        provider.setUserDetailsService(appUserServiceImpl);
         return provider;
     }
 
