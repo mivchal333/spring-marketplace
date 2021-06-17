@@ -1,7 +1,6 @@
 package pl.edu.pb.springmarketplace.security.config;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -25,22 +24,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/registration")
-                    .permitAll()
-                    .antMatchers("/auction/new")
-                    .hasAnyAuthority("USER", "MODERATOR","ADMIN")
-                    .antMatchers("/auction/*/delete")
-                    .hasAnyAuthority("MODERATOR","ADMIN")
-                    .antMatchers("/auction")
-                    .permitAll()
-                    .antMatchers("/administration")
-                    .hasAuthority("ADMIN")
+                .antMatchers("/registration")
+                .permitAll()
+                .antMatchers("/auction/new")
+                .hasAnyAuthority("USER", "MODERATOR", "ADMIN")
+                .antMatchers("/auction/*/delete", "/auction/*/publish", "/auction/*/unpublish")
+                .hasAnyAuthority("MODERATOR", "ADMIN")
+                .antMatchers("/auction")
+                .permitAll()
+                .antMatchers("/administration")
+                .hasAuthority("ADMIN")
                 .anyRequest()
                 .authenticated().and()
                 .formLogin()
-                    .usernameParameter("email")
-                    .defaultSuccessUrl("/auction", true)
-                    .permitAll()
+                .usernameParameter("email")
+                .defaultSuccessUrl("/auction", true)
+                .permitAll()
                 .and()
                 .logout()
                 .permitAll();

@@ -16,13 +16,18 @@
             <th>Title</th>
             <th>Description</th>
             <th>Price</th>
+            <th>Status</th>
         </tr>
-        <tr>
-            <td th:text="${auction.id}"></td>
-            <td th:text="${auction.title}"></td>
-            <td th:text="${auction.description}"></td>
-            <td th:text="${auction.price}"></td>
-        </tr>
+            <tr>
+                <td th:text="${auction.id}"></td>
+                <td th:text="${auction.title}"></td>
+                <td th:text="${auction.description}"></td>
+                <td th:text="${auction.price}"></td>
+                <td>
+                    <div th:if="${auction.published == false}">Hidden</div>
+                    <div th:if="${auction.published == true}">Published</div>
+                </td>
+            </tr>
     </table>
     <div class="btn-group" role="group">
         <a class="btn btn-danger" th:href="${'/auction/' + auction.id + '/delete' }" type="button">Delete</a>

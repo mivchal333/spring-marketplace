@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pl.edu.pb.springmarketplace.appuser.AppUser;
 import pl.edu.pb.springmarketplace.model.Auction;
 import pl.edu.pb.springmarketplace.model.Category;
-import pl.edu.pb.springmarketplace.model.repository.AuctionRepository;
-import pl.edu.pb.springmarketplace.model.repository.CategoryRepository;
+import pl.edu.pb.springmarketplace.service.AuctionService;
+import pl.edu.pb.springmarketplace.service.AuthFacade;
+import pl.edu.pb.springmarketplace.service.CategoryService;
 
 import java.util.Optional;
 
@@ -19,19 +21,28 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/auction")
 public class AuctionController {
-    private final AuctionRepository auctionRepository;
-    private final CategoryRepository categoryRepository;
+
+    private final AuctionService auctionService;
+    private final CategoryService categoryService;
+    private final AuthFacade authFacade;
 
     @GetMapping
     public String findAll(Model model) {
-        Iterable<Auction> auctions = auctionRepository.findAll();
+        Iterable<Auction> auctions = auctionService.findPublished();
         model.addAttribute("auctions", auctions);
         return "/auction/list";
     }
 
+    @GetMapping("/moderate")
+    public String moderateAuctions(Model model) {
+        Iterable<Auction> auctions = auctionService.findAll();
+        model.addAttribute("auctions", auctions);
+        return "/auction/moderate";
+    }
+
     @GetMapping("/new")
     public String newForm(Model model) {
-        Iterable<Category> categories = categoryRepository.findAll();
+        Iterable<Category> categories = categoryService.findAll();
         model.addAttribute("auction", new Auction());
         model.addAttribute("categories", categories);
         return "/auction/form";
@@ -39,14 +50,28 @@ public class AuctionController {
 
     @PostMapping
     public String postAuction(Auction auction) {
-        Auction saved = auctionRepository.save(auction);
+        AppUser user = authFacade.getCurrentUser();
+        auction.setCreator(user);
+        Auction saved = auctionService.save(auction);
         return "redirect:/auction/" + saved.getId();
+    }
+
+    @GetMapping("/{id}/publish")
+    public String publishAuction(@PathVariable Long id) {
+        auctionService.changePublishState(id, true);
+        return "redirect:/auction/moderate";
+    }
+
+    @GetMapping("/{id}/unpublish")
+    public String unpublishAuction(@PathVariable Long id) {
+        auctionService.changePublishState(id, false);
+        return "redirect:/auction/moderate";
     }
 
     @GetMapping(value = "/{id}/edit")
     public String editAuction(@PathVariable Long id, Model model) {
-        Optional<Auction> foundOpt = auctionRepository.findById(id);
-        Iterable<Category> categories = categoryRepository.findAll();
+        Optional<Auction> foundOpt = auctionService.findById(id);
+        Iterable<Category> categories = categoryService.findAll();
         model.addAttribute("categories", categories);
 
         foundOpt.ifPresent(auction -> model.addAttribute("auction", auction));
@@ -55,14 +80,14 @@ public class AuctionController {
 
     @GetMapping("/{id}")
     public String findAuction(@PathVariable Long id, Model model) {
-        Optional<Auction> auctionOpt = auctionRepository.findById(id);
+        Optional<Auction> auctionOpt = auctionService.findById(id);
         auctionOpt.ifPresent(auction -> model.addAttribute("auction", auction));
         return "/auction/details";
     }
 
     @RequestMapping("/{id}/delete")
     public String deleteAirport(@PathVariable Long id) {
-        auctionRepository.deleteById(id);
+        auctionService.deleteById(id);
         return "redirect:/auction";
     }
 

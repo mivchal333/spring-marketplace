@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en"
+      layout:decorate="/_layout"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8">
+    <title>auctions list</title>
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
+          media="screen" rel="stylesheet"/>
+    <script src="http://cdn.jsdelivr.net/webjars/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h1>Moderate auctions:</h1>
+        <div th:if="${not #lists.isEmpty(auctions)}">
+            <table class="table table-striped">
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th></th>
+                </tr>
+                <tr th:each="auction : ${auctions}">
+                    <td th:text="${auction.id}"></td>
+                    <td th:text="${auction.title}"></td>
+                    <td th:text="${auction.description}"></td>
+                    <td th:text="${auction.price}"></td>
+                    <td>
+                        <a class="btn btn-info" th:href="${'/auction/' + auction.id }" type="button">Show</a>
+                        <a class="btn btn-success" th:href="${'/auction/' + auction.id + '/publish'}"
+                           th:if="${auction.published == false}" type="button">
+                            Publish
+                        </a>
+                        <a class="btn btn-danger" th:href="${'/auction/' + auction.id + '/unpublish'}"
+                           th:if="${auction.published == true}" type="button">Unpublish</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <a class="btn btn-primary" th:href="${'/auction/new/'}" type="button">Add</a>
+    </div>
+    <div th:if="${#lists.isEmpty(auctions)}">
+        <h3>Empty list</h3></div>
+</div>
+</body>
+</html>

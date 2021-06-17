@@ -1,6 +1,5 @@
 package pl.edu.pb.springmarketplace.appuser;
 
-import com.fasterxml.jackson.databind.util.ClassUtil;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
