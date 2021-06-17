@@ -64,7 +64,7 @@ public class AuctionServiceImpl implements AuctionService {
             throw new AccessDeniedException("Access denied");
         }
 
-        auction.setPublished(true);
+        auction.setPublished(isPublish);
         log.info("Auction with id={} published", id);
         return save(auction);
     }
