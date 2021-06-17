@@ -39,6 +39,8 @@ public class AppUser implements UserDetails {
         this.email = email;
         this.password = password;
         this.appUserRole = appUserRole;
+
+
     }
 
     @Override

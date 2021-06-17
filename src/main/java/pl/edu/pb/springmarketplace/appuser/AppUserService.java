@@ -24,7 +24,6 @@ public class AppUserService implements UserDetailsService {
     @Value("${spring.security.user.password}")
     private String adminPassword;
 
-
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
@@ -38,5 +37,8 @@ public class AppUserService implements UserDetailsService {
         return appUserRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND,email)));
     }
+
+
+
 
 }

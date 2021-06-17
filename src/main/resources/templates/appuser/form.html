@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/_layout" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Edit Auction</title>
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
+          rel="stylesheet" media="screen"/>
+    <script src="http://cdn.jsdelivr.net/webjars/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h2>Please register</h2>
+        <div>
+            <!--/*@thymesVar id="auction" type="pl.edu.pb.springmarketplace.model.Auction"*/-->
+            <form action="/appuser" class="form-horizontal" method="post" th:object="${appuser}">
+                <input th:field="*{id}" type="hidden"/>
+                <input type="hidden" class="form-control" th:field="*{password}"/>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Username:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" th:field="*{username}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Email:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" th:field="*{email}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Role:</label>
+                    <div class="col-sm-10">
+                        <select th:field="*{appUserRole}">
+                            <option th:each="role : ${T(pl.edu.pb.springmarketplace.appuser.AppUserRole).values()}"
+                                    th:value="${role}"
+                                    th:text="${role}">
+                            </option>
+                        </select>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+        <br>
+    </div>
+</div>
+</body>
+</html>
