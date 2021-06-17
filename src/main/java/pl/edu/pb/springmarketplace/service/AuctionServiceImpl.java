@@ -60,9 +60,7 @@ public class AuctionServiceImpl implements AuctionService {
 
         auction.setPublished(isPublish);
         log.info("Auction with id={} published", id);
-
         Auction saved = save(auction);
-        emailServiceImpl.sendNotification(saved.getCreator(), saved);
         return saved;
     }
 }

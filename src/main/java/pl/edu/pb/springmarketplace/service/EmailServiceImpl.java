@@ -25,30 +25,33 @@ public class EmailServiceImpl implements EmailService {
     private String mailAddress;
 
 
-
-    public void sendNotification(AppUser appUser, Auction auction) throws MailException {
-
+    @Override
+    public void sendAuctionPublishedMail(AppUser appUser, Auction auction) {
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(appUser.getEmail());
         mail.setFrom(mailAddress);
         mail.setSubject(String.format("Your auction %s: %s has been published!", auction.getId(), auction.getTitle()));
-        mail.setText("SIEMA BYKU");
+        mail.setText("We are writing to inform you that your auction is now publicly visible and published. ");
 
         try {
             javaMailSender.send(mail);
         }catch (Exception e){
             log.error("Error while sending the mail, mail address: {}", appUser.getEmail());
         }
-
-    }
-
-    @Override
-    public void sendAuctionPublishedMail(AppUser appUser, Auction auction) {
-
     }
 
     @Override
     public void sendAuctionUnpublishedMail(AppUser appUser, Auction auction) {
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(appUser.getEmail());
+        mail.setFrom(mailAddress);
+        mail.setSubject(String.format("Your auction %s: %s has been published!", auction.getId(), auction.getTitle()));
+        mail.setText("We are writing to inform you that your announcement has expired");
 
+        try {
+            javaMailSender.send(mail);
+        }catch (Exception e){
+            log.error("Error while sending the mail, mail address: {}", appUser.getEmail());
+        }
     }
 }
