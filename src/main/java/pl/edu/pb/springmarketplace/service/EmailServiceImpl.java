@@ -46,8 +46,8 @@ public class EmailServiceImpl implements EmailService {
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(appUser.getEmail());
         mail.setFrom(mailAddress);
-        mail.setSubject(String.format("Your auction %s: %s has been published!", auction.getId(), auction.getTitle()));
-        mail.setText("We are writing to inform you that your announcement has expired");
+        mail.setSubject(String.format("Your auction %s: %s has been unpublished!", auction.getId(), auction.getTitle()));
+        mail.setText("We are writing to inform you that your announcement has expired and is now unpublished");
 
         try {
             javaMailSender.send(mail);
