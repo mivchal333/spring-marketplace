@@ -29,6 +29,12 @@ public class AuctionServiceImpl implements AuctionService {
     }
 
     @Override
+    public Iterable<Auction> findPublishedByCategory(Long categoryId) {
+        log.info("Listing all published auctions with categoryId: " + categoryId);
+        return auctionRepository.findPublishedByCategory(categoryId);
+    }
+
+    @Override
     public Iterable<Auction> findAll() {
         log.info("Listing all auctions");
         return auctionRepository.findAll();

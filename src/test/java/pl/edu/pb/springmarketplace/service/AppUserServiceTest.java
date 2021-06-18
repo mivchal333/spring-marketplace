@@ -16,6 +16,8 @@ import pl.edu.pb.springmarketplace.security.PasswordEncoder;
 import java.math.BigDecimal;
 import java.util.Collections;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 
 public class AppUserServiceTest {
 
@@ -57,6 +59,21 @@ public class AppUserServiceTest {
         String passAfterEncryption = appUserService.buildAndSaveUser(appUser).getPassword();
 
         Assertions.assertTrue(bCryptPasswordEncoder.matches(passBeforeEncryption, passAfterEncryption));
+
+    }
+
+
+    @Test
+    public void createUserWithSameEmail(){
+        AppUser appUser = new AppUser("Test User","test@test.com","123123", AppUserRole.USER);
+        appUser = appUserService.registerNewUser(appUser);
+
+        AppUser appUser2 = new AppUser("Test User 2","test@test.com","12", AppUserRole.MODERATOR);
+
+
+        Assertions.assertThrows(
+                IllegalStateException.class,
+                () -> {appUserService.registerNewUser(appUser2);});
 
     }
 

@@ -35,6 +35,7 @@ public class EmailServiceImpl implements EmailService {
 
         try {
             javaMailSender.send(mail);
+            log.info("Sent mail to: {} (published)", appUser.getEmail());
         }catch (Exception e){
             log.error("Error while sending the mail, mail address: {}", appUser.getEmail());
         }
@@ -50,6 +51,7 @@ public class EmailServiceImpl implements EmailService {
 
         try {
             javaMailSender.send(mail);
+            log.info("Sent mail to: {} (unpublished)", appUser.getEmail());
         }catch (Exception e){
             log.error("Error while sending the mail, mail address: {}", appUser.getEmail());
         }

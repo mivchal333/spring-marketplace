@@ -23,4 +23,9 @@ public class Category {
             orphanRemoval = true
     )
     private List<Auction> auctions = new LinkedList<>();
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
