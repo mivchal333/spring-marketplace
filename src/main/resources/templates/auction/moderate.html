@@ -21,6 +21,7 @@
                     <th>Title</th>
                     <th>Description</th>
                     <th>Price</th>
+                    <th>Category</th>
                     <th></th>
                 </tr>
                 <tr th:each="auction : ${auctions}">
@@ -28,6 +29,7 @@
                     <td th:text="${auction.title}"></td>
                     <td th:text="${auction.description}"></td>
                     <td th:text="${auction.price}"></td>
+                    <td th:text="${auction.category}"></td>
                     <td>
                         <a class="btn btn-info" th:href="${'/auction/' + auction.id }" type="button">Show</a>
                         <a class="btn btn-success" th:href="${'/auction/' + auction.id + '/publish'}"

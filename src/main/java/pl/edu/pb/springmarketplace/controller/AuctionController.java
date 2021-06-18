@@ -3,10 +3,7 @@ package pl.edu.pb.springmarketplace.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import pl.edu.pb.springmarketplace.appuser.AppUser;
 import pl.edu.pb.springmarketplace.model.Auction;
 import pl.edu.pb.springmarketplace.model.Category;
@@ -29,9 +26,15 @@ public class AuctionController {
     private final AuthFacade authFacade;
 
     @GetMapping
-    public String findAll(Model model) {
-        Iterable<Auction> auctions = auctionService.findPublished();
+    public String findAll(@RequestParam(required = false) Long categoryId,  Model model) {
+        Iterable<Auction> auctions = null;
+        if (categoryId != null){
+            auctions = auctionService.findPublishedByCategory(categoryId);
+        }else{
+            auctions = auctionService.findPublished();
+        }
         model.addAttribute("auctions", auctions);
+        model.addAttribute("categories", categoryService.findAll());
         return "/auction/list";
     }
 

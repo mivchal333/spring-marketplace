@@ -8,6 +8,8 @@ public interface AuctionService {
 
     Iterable<Auction> findPublished();
 
+    Iterable<Auction> findPublishedByCategory(Long categoryId);
+
     Iterable<Auction> findAll();
 
     Auction save(Auction auction);
