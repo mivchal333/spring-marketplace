@@ -28,7 +28,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/auction/new")
                 .hasAnyAuthority("USER", "MODERATOR", "ADMIN")
-                .antMatchers("/auction/*/delete", "/auction/*/publish", "/auction/*/unpublish", "/auction/moderate")
+                .antMatchers("/auction/*/delete", "/auction/*/publish", "/auction/*/unpublish","/auction/*/edit",
+                        "/category",
+                        "/category/*",
+                        "/auction/moderate")
                 .hasAnyAuthority("MODERATOR", "ADMIN")
                 .antMatchers("/auction")
                 .permitAll()
