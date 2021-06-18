@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import pl.edu.pb.springmarketplace.appuser.AppUser;
 import pl.edu.pb.springmarketplace.model.repository.AuctionRepository;
 
 import java.math.BigDecimal;
@@ -21,10 +22,17 @@ public class AuctionRepositoryTest {
 
     @Test
     public void shouldSaveAuctionWithoutCategory() {
+        AppUser user = new AppUser();
+        user.setUsername("username");
+        user.setEmail("a@gmail.pl");
+        user.setEmail("a@gmail.pl");
+        entityManager.persist(user);
+
         Auction auction = new Auction();
         auction.setTitle("title");
         auction.setDescription("desc");
         auction.setPrice(BigDecimal.ONE);
+        auction.setCreator(user);
 
         Auction save = auctionRepository.save(auction);
 
@@ -36,12 +44,18 @@ public class AuctionRepositoryTest {
     @Test
     public void shouldSaveAuctionWithCategory() {
         Category category = insertCategory();
+        AppUser user = new AppUser();
+        user.setUsername("username");
+        user.setEmail("a@gmail.pl");
+        user.setEmail("a@gmail.pl");
+        entityManager.persist(user);
 
         Auction auction = new Auction();
         auction.setTitle("title");
         auction.setDescription("desc");
         auction.setPrice(BigDecimal.ONE);
         auction.setCategory(category);
+        auction.setCreator(user);
 
         Auction save = auctionRepository.save(auction);
 

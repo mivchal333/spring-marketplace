@@ -2,16 +2,14 @@ package pl.edu.pb.springmarketplace.service;
 
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import pl.edu.pb.springmarketplace.appuser.AppUser;
 import pl.edu.pb.springmarketplace.model.Auction;
-import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
 @Service
@@ -36,8 +34,8 @@ public class EmailServiceImpl implements EmailService {
         try {
             javaMailSender.send(mail);
             log.info("Sent mail to: {} (published)", appUser.getEmail());
-        }catch (Exception e){
-            log.error("Error while sending the mail, mail address: {}", appUser.getEmail());
+        } catch (Exception e) {
+            log.error("Error while sending the mail to={}. Reason: {}", appUser.getEmail(), e.getMessage());
         }
     }
 
@@ -52,8 +50,8 @@ public class EmailServiceImpl implements EmailService {
         try {
             javaMailSender.send(mail);
             log.info("Sent mail to: {} (unpublished)", appUser.getEmail());
-        }catch (Exception e){
-            log.error("Error while sending the mail, mail address: {}", appUser.getEmail());
+        } catch (Exception e) {
+            log.error("Error while sending the mail to={}. Reason: {}", appUser.getEmail(), e.getMessage());
         }
     }
 }
