@@ -36,7 +36,7 @@ public class EmailValidatorTest {
 
     @Test
     public void invalidEmailDollarTest(){
-        String addr = "$$@admin";
+        String addr = "$$$admin";
 
         Assertions.assertFalse(emailValidator.test(addr));
     }
